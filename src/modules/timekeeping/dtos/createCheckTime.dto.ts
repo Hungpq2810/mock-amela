@@ -7,5 +7,5 @@ export class CreateCheckTimeDto {
 
   @IsNotEmpty()
   @IsDate()
-  checkTime: Date;
+  checkTime: Date = new Date();
 }

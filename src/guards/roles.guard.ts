@@ -16,7 +16,11 @@ export class RolesGuard implements CanActivate {
       return true;
     }
     const request = context.switchToHttp().getRequest();
-    console.log(request.user);
-    return requiredRoles.some((roleId) => request.user?.jobTitleId === roleId);
+    const userRole = request.user?.role;
+    // Check if userRole is in Role enum
+    if (!Object.values(Role).includes(userRole)) {
+      return false;
+    }
+    return requiredRoles.some((role) => userRole === role);
   }
 }

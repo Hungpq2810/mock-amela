@@ -11,7 +11,11 @@ export class UserService {
   ) {}
 
   async getAllUsers(): Promise<User[]> {
-    return await this.userRepository.find();
+    return await this.userRepository.find({
+      where: {
+        isActive: true,
+      }
+    });
   }
 
   async getUserById(id: number): Promise<User> {

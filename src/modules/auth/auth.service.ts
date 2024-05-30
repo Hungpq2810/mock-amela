@@ -38,16 +38,10 @@ export class AuthService {
     );
   }
 
-  async checkTokenExisting(userId: number, type: TokenType) {
-    const checkExistingToken = await this.tokenRepository.findOne({ where: { userId: userId, type: type }});
-    if (!checkExistingToken) {
-      throw new UnauthorizedException();
-    }
-    return checkExistingToken;
-  }
+  
   async createRefreshToken(user: User): Promise<String> {
     const userId = user.id;
-    const checkExistingToken = this.checkTokenExisting(userId, TokenType.REFRESH);
+    const checkExistingToken = await this.tokenRepository.findOne({ where: {userId: userId, type: TokenType.REFRESH }});
     if (checkExistingToken) {
       await this.tokenRepository.delete({ userId: userId, type: TokenType.REFRESH });
     }
@@ -116,8 +110,7 @@ export class AuthService {
 
   async updatePassword( user: User, data: UpdatePasswordDto) {
     const { oldPassword, newPassword, confirmPassword } = data;
-    console.log(oldPassword);
-    console.log(user);
+
     
     if (!(await bcrypt.compare(oldPassword, user.password))) {
       throw new UnauthorizedException('Old password is not correct');

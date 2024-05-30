@@ -2,6 +2,7 @@ import { Exclude } from 'class-transformer';
 import { Role } from 'src/enums/index.enum';
 import { Department } from 'src/modules/departments/entities/department.entity';
 import { Job } from 'src/modules/jobs/entities/job.entity';
+import { Schedule } from 'src/modules/schedule/entities/schedule.entity';
 import { TimeKeeping } from 'src/modules/timekeeping/entities/timekeeping.entity';
 import {
   BeforeInsert,
@@ -40,10 +41,10 @@ export class User {
   @Column({ name: 'phone', nullable: false })
   phone: string;
 
-  @Column({ name: 'job_id', nullable: false })
+  @Column({ name: 'job_id', nullable: true })
   jobId: number;
 
-  @Column({ name: 'department_id', nullable: false })
+  @Column({ name: 'department_id', nullable: true })
   departmentId: number;
 
   @Column({ name: 'role', nullable: false, default: Role.USER })
@@ -98,4 +99,10 @@ export class User {
 
   @OneToMany(() => TimeKeeping, (timeKeeping) => timeKeeping.user)
   timekeepings: TimeKeeping[];
+
+  @OneToMany(() => Schedule, (schedule) => schedule.sender)
+  sendSchedules: Schedule[];
+
+  @OneToMany(() => Schedule, (schedule) => schedule.receiver)
+  receiveSchedules: Schedule[];
 }

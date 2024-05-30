@@ -22,7 +22,13 @@ export class TimeKeepingService {
     });
   }
 
-  async createTimeKeeping(data: CreateCheckTimeDto) {
+  async getTimeKeepingByUser(userId: number) {
+    return await this.timeKeepingRepository.find({
+      where: { userId },
+    });
+  }
+
+  async createTimeKeeping(data: Partial<CreateCheckTimeDto>) {
     const startDate = new Date();
     startDate.setHours(0, 0, 0, 0);
 
@@ -59,7 +65,7 @@ export class TimeKeepingService {
     }
   }
 
-  async updateTimeKeeping(data: UpdateCheckTimeDto) {
+  async updateTimeKeeping(id: number, data: UpdateCheckTimeDto) {
     if (
       data?.checkIn &&
       data?.checkOut &&
@@ -82,7 +88,7 @@ export class TimeKeepingService {
       return new BadRequestException('Record not found');
     }
 
-    let newRecord: TimeKeeping;
+    let newRecord = await this.timeKeepingRepository.findOne({where: {id}});
 
     newRecord.checkIn = data.checkIn || existingRecord.checkIn;
     newRecord.checkOut = data.checkOut || existingRecord.checkOut;

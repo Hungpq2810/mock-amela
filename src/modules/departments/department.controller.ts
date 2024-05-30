@@ -45,8 +45,8 @@ export class DepartmentController {
   @ApiBody({ type: CreateDepartmentDto })
   @Roles(Role.ADMIN)
   @UseGuards(RolesGuard)
-  public async createDepartment(input: CreateDepartmentDto) {
-    return await this.departmentService.createDepartment(input);
+  public async createDepartment(@Body() data: CreateDepartmentDto) {
+    return await this.departmentService.createDepartment(data);
   }
 
   @Patch('/:id')

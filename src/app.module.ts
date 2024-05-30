@@ -11,6 +11,8 @@ import { ConfigModule } from '@nestjs/config';
 import ormConfig from './configs/orm.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppLoggerMiddleware } from './middlewares/logger.middleware';
+import { NotificationModule } from './modules/notification/notification.module';
+import { ScheduleModule } from './modules/schedule/schedule.module';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { AppLoggerMiddleware } from './middlewares/logger.middleware';
     TimeKeepingModule,
     DepartmentModule,
     JobModule,
+    NotificationModule,
+    ScheduleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
